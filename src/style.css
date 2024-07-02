@@ -329,3 +329,79 @@ a:focus {
     list-style-position: inside;
   }
 }
+
+/* Whsher */
+.wisher-ui {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.subtitle {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.selectpicker {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.label_top {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.generated-text {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.action-buttons {
+  margin-top: 20px;
+}
+
+.generate-btn, .copy-btn {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.generate-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.copy-btn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .wisher-ui {
+    padding: 10px;
+  }
+  
+  .selectpicker {
+    margin-bottom: 10px;
+  }
+}
+
+/* Type simulation */
+@keyframes blink {
+  50% { border-color: #ffffff; }
+}
+
+.typing-animation {
+  display: inline-block;
+  border-right: 2px solid #000000;
+  animation: blink .5s step-end infinite alternate;
+  white-space: pre-wrap;
+}
