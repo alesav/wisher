@@ -24,24 +24,70 @@ const BlogPostTemplate = ({
   const typeText = useCallback((text, delay = 100) => {
     setIsTyping(true)
     setCurrentWish("")
-    let i = 0
-    const intervalId = setInterval(() => {
-      console.log(i, text[i])
-      setCurrentWish(prev => prev + text[i])
-      i++
-      if (i === text.length) {
-        clearInterval(intervalId)
-        setIsTyping(false)
-      }
-    }, delay)
+    const characters = text.split("")
+
+    characters.forEach((char, index) => {
+      setTimeout(() => {
+        setCurrentWish(prev => prev + char)
+        if (index === characters.length - 1) {
+          setIsTyping(false)
+        }
+      }, delay * index)
+    })
   }, [])
 
   useEffect(() => {
     typeText(getRandomWish())
   }, [getRandomWish, typeText])
 
-  const handleGenerateMore = () => {
-    typeText(getRandomWish())
+  const handleGenerateMore = async () => {
+    const recipients = document.getElementById("recipients").value
+    const holidays = document.getElementById("holidays").value
+    const professions = document.getElementById("professions").value
+    const style = document.getElementById("style").value
+
+    const requestBody = {
+      who: recipients,
+      celebration: holidays,
+      occupation: professions,
+      style: style,
+      language: "ru",
+    }
+
+    setIsTyping(true)
+    setCurrentWish("")
+    typeText("Искусственный интеллект думает...")
+
+    try {
+      const response = await fetch(
+        "https://sonicjs.smspm.workers.dev/o/sendinwisher",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      // Assuming the response contains a 'wish' field. Adjust if the response structure is different.
+      if (data && data.result) {
+        setCurrentWish("")
+        typeText(data.result)
+      } else {
+        throw new Error("Unexpected response format")
+      }
+    } catch (error) {
+      console.error("Error fetching new wish:", error)
+      setCurrentWish("Извините, произошла ошибка при генерации пожелания.")
+      setIsTyping(false)
+    }
   }
 
   const recipientMapping = {
@@ -75,10 +121,6 @@ const BlogPostTemplate = ({
 
   const siteTitle = site.siteMetadata?.title || `Title`
 
-  const [fetchedData, setFetchedData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
   useEffect(() => {
     const slugParts = slug.split("-")
 
@@ -100,19 +142,6 @@ const BlogPostTemplate = ({
     setSelectedOption("style", styleMapping)
   }, [slug])
 
-  useEffect(() => {
-    fetch("https://wisher-backend.smspm.workers.dev/api/beverages")
-      .then(response => response.json())
-      .then(data => {
-        setFetchedData(data)
-        setLoading(false)
-      })
-      .catch(error => {
-        setError(error)
-        setLoading(false)
-      })
-  }, [])
-
   return (
     <Layout location={location} title={siteTitle}>
       <article
@@ -120,15 +149,6 @@ const BlogPostTemplate = ({
         itemScope
         itemType="http://schema.org/Article"
       >
-        {loading && <p>Loading...</p>}
-        {error && <p>Error fetching data: {error.message}</p>}
-        {fetchedData && (
-          <section>
-            {/* Display the fetched data here */}
-            <pre>{JSON.stringify(fetchedData, null, 2)}</pre>
-          </section>
-        )}
-
         {/* New UI section */}
         <section className="wisher-ui">
           <div className="row">
@@ -273,8 +293,19 @@ const BlogPostTemplate = ({
             <p className="typing-animation">{currentWish}</p>
           </div>
           <div className="action-buttons">
-            <button className="generate-btn">Сгенерировать еще</button>
-            <button className="copy-btn">Скопировать</button>
+            <button
+              className="generate-btn"
+              onClick={handleGenerateMore}
+              disabled={isTyping}
+            >
+              Сгенерировать еще
+            </button>
+            <button
+              className="copy-btn"
+              onClick={() => navigator.clipboard.writeText(currentWish)}
+            >
+              Скопировать
+            </button>
           </div>
           <div className="slug-elements">
             {slugElements.map((element, index) => (
