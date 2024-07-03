@@ -13,7 +13,7 @@ selectedValues:
   style: "formalnoje"
 ---
 
-Wow! I love blogging so much already.
+Привет бабушка! I love blogging so much already.
 
 Did you know that "despite its name, salted duck eggs can also be made from
 chicken eggs, though the taste and texture will be somewhat different, and the
