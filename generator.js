@@ -1,5 +1,6 @@
 const fs = require("fs")
 const path = require("path")
+const readline = require("readline")
 
 const recipientDisplayMapping = {
   parnja: "парня",
@@ -26,9 +27,9 @@ const holidayDisplayMapping = {
 }
 const professionDisplayMapping = {
   "ne-vazhno": "Не важно",
-  administrator: "администратора",
-  akter: "актера",
-  aitishnik: "айтишника",
+  administrator: "администратор",
+  akter: "актер",
+  aitishnik: "айтишник",
 }
 const styleDisplayMapping = {
   smeshnoje: "Смешное",
@@ -38,7 +39,19 @@ const styleDisplayMapping = {
   torzhestvennoje: "Длинное торжественное",
 }
 
-// Helper function to create folders and files
+const BATCH_SIZE = 500
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+})
+
+const promptForNextBatch = () => {
+  return new Promise(resolve => {
+    rl.question("Press Enter to generate the next batch...", resolve)
+  })
+}
+
 const createFolderAndFile = (slug, title, selectedValues) => {
   const folderPath = path.join("content", "blog", "ru", slug)
   const fileContent = `---
@@ -82,36 +95,51 @@ Yeah, I didn't either.
   })
 }
 
-// Generate all possible slugs and titles
-for (const recipientKey in recipientDisplayMapping) {
-  for (const holidayKey in holidayDisplayMapping) {
-    for (const professionKey in professionDisplayMapping) {
-      for (const styleKey in styleDisplayMapping) {
-        const slugParts = ["pozdravit", recipientKey]
-        const selectedValues = {
-          recipients: recipientKey,
-          holidays: holidayKey,
-          professions: professionKey,
-          style: styleKey,
+const generateSlugs = async () => {
+  const slugs = []
+  for (const recipientKey in recipientDisplayMapping) {
+    for (const holidayKey in holidayDisplayMapping) {
+      for (const professionKey in professionDisplayMapping) {
+        for (const styleKey in styleDisplayMapping) {
+          const slugParts = ["pozdravit", recipientKey]
+          const selectedValues = {
+            recipients: recipientKey,
+            holidays: holidayKey,
+            professions: professionKey,
+            style: styleKey,
+          }
+
+          if (professionKey !== "ne-vazhno") {
+            slugParts.push(professionKey)
+          }
+
+          slugParts.push(holidayKey, styleKey)
+          const slug = slugParts.join("-")
+
+          const title = `Поздравить ${recipientDisplayMapping[recipientKey]}${
+            professionKey !== "ne-vazhno"
+              ? " " + professionDisplayMapping[professionKey]
+              : ""
+          } ${holidayDisplayMapping[holidayKey]}. ${
+            styleDisplayMapping[styleKey]
+          }`
+
+          slugs.push({ slug, title, selectedValues })
         }
-
-        if (professionKey !== "ne-vazhno") {
-          slugParts.push(professionKey)
-        }
-
-        slugParts.push(holidayKey, styleKey)
-        const slug = slugParts.join("-")
-
-        const title = `Поздравить ${recipientDisplayMapping[recipientKey]}${
-          professionKey !== "ne-vazhno"
-            ? " " + professionDisplayMapping[professionKey]
-            : ""
-        } ${holidayDisplayMapping[holidayKey]}. ${
-          styleDisplayMapping[styleKey]
-        }`
-
-        createFolderAndFile(slug, title, selectedValues)
       }
     }
   }
+
+  for (let i = 0; i < slugs.length; i += BATCH_SIZE) {
+    const batch = slugs.slice(i, i + BATCH_SIZE)
+    for (const { slug, title, selectedValues } of batch) {
+      createFolderAndFile(slug, title, selectedValues)
+    }
+    if (i + BATCH_SIZE < slugs.length) {
+      await promptForNextBatch()
+    }
+  }
+  rl.close()
 }
+
+generateSlugs()
