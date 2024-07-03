@@ -1,6 +1,6 @@
 ---
 title: Поздравить бабушку 9 мая, день победы в ВОВ. Смешное
-date: "2024-07-03T11:55:29.047Z"
+date: "2024-07-03T13:49:24.366Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

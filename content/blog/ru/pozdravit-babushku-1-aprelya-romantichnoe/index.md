@@ -1,6 +1,6 @@
 ---
 title: Поздравить бабушку 1 апреля. Романтичное
-date: "2024-07-03T11:55:29.047Z"
+date: "2024-07-03T13:49:24.366Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"
@@ -13,7 +13,7 @@ selectedValues:
   style: "romantichnoe"
 ---
 
-asdf! I love blogging so much already.
+Wow! I love blogging so much already.
 
 Did you know that "despite its name, salted duck eggs can also be made from
 chicken eggs, though the taste and texture will be somewhat different, and the

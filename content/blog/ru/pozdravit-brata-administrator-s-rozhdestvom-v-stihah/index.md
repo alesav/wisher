@@ -1,6 +1,6 @@
 ---
-title: Поздравить брата администратора с Рождеством. В стихах
-date: "2024-07-03T11:55:29.045Z"
+title: Поздравить брата администратор с Рождеством. В стихах
+date: "2024-07-03T13:49:23.634Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

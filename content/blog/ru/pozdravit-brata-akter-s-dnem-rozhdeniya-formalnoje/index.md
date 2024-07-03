@@ -1,6 +1,6 @@
 ---
-title: Поздравить брата актера c Днем рождения. Формальное и красивое
-date: "2024-07-03T11:55:29.044Z"
+title: Поздравить брата актер c Днем рождения. Формальное и красивое
+date: "2024-07-03T13:49:23.633Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

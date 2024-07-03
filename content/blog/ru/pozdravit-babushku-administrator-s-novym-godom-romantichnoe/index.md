@@ -1,6 +1,6 @@
 ---
-title: Поздравить бабушку администратора с Новым годом. Романтичное
-date: "2024-07-03T11:55:29.047Z"
+title: Поздравить бабушку администратор с Новым годом. Романтичное
+date: "2024-07-03T13:49:24.366Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

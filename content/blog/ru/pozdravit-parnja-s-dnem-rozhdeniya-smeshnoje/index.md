@@ -1,6 +1,6 @@
 ---
 title: Поздравить парня c Днем рождения. Смешное
-date: "2024-07-03T13:30:34.821Z"
+date: "2024-07-03T13:49:19.919Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

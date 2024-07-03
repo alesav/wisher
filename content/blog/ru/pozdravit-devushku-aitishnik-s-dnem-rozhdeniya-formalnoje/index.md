@@ -1,6 +1,6 @@
 ---
 title: Поздравить девушку айтишник c Днем рождения. Формальное и красивое
-date: "2024-07-03T13:30:34.831Z"
+date: "2024-07-03T13:49:19.922Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

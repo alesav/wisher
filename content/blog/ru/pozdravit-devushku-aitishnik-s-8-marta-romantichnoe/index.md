@@ -1,6 +1,6 @@
 ---
 title: Поздравить девушку айтишник с 8 марта. Романтичное
-date: "2024-07-03T13:30:34.833Z"
+date: "2024-07-03T13:49:19.924Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"
