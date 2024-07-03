@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useEffect, useState, useCallback } from "react"
-import { Link, graphql } from "gatsby"
+import { Link, graphql, navigate } from "gatsby"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
@@ -11,10 +11,22 @@ const BlogPostTemplate = ({
   location,
 }) => {
   const slug = location.pathname.split("/").filter(Boolean).pop()
-  const slugElements = slug ? slug.split("-") : []
 
   const [currentWish, setCurrentWish] = useState("")
   const [isTyping, setIsTyping] = useState(false)
+
+  const [selectedValues, setSelectedValues] = useState({
+    recipients: post.frontmatter.selectedValues?.recipients || "",
+    holidays: post.frontmatter.selectedValues?.holidays || "",
+    professions: post.frontmatter.selectedValues?.professions || "",
+    style: post.frontmatter.selectedValues?.style || "",
+  })
+
+  const handleDropdownChange = event => {
+    const { id, value } = event.target
+    setSelectedValues(prev => ({ ...prev, [id]: value }))
+    buildSlugAndRedirect()
+  }
 
   const getRandomWish = useCallback(() => {
     const wishes = post.frontmatter.wishes || []
@@ -36,22 +48,96 @@ const BlogPostTemplate = ({
     })
   }, [])
 
-  useEffect(() => {
-    typeText(getRandomWish())
-  }, [getRandomWish, typeText])
-
-  const handleGenerateMore = async () => {
+  const buildSlugAndRedirect = () => {
     const recipients = document.getElementById("recipients").value
     const holidays = document.getElementById("holidays").value
     const professions = document.getElementById("professions").value
     const style = document.getElementById("style").value
 
+    let slugParts = ["pozdravit", recipients]
+
+    if (professions !== "ne-vazhno") {
+      slugParts.push(professions)
+    }
+
+    slugParts = slugParts.concat([holidays, style])
+
+    const newSlug = "/" + slugParts.join("-")
+
+    // Use Gatsby's navigate function for client-side routing
+    navigate("/ru" + newSlug)
+  }
+
+  useEffect(() => {
+    typeText(getRandomWish())
+  }, [getRandomWish, typeText])
+
+  const generateCurrentSlug = () => {
+    let slugParts = ["pozdravit", selectedValues.recipients]
+
+    if (selectedValues.professions !== "ne-vazhno") {
+      slugParts.push(selectedValues.professions)
+    }
+
+    slugParts = slugParts.concat([
+      selectedValues.holidays,
+      selectedValues.style,
+    ])
+
+    return slugParts.join("-")
+  }
+
+  const handleGenerateMore = async () => {
+    const currentSlug = generateCurrentSlug()
+
+    const recipientDisplayMapping = {
+      parnja: "парня",
+      devushku: "девушку",
+      mamu: "маму",
+      papu: "папу",
+      brata: "брата",
+      sestru: "сестру",
+      druga: "друга",
+      podrugu: "подругу",
+      babushku: "бабушку",
+      dedushku: "дедушку",
+      kollegu: "коллегу",
+      paru: "пару",
+    }
+
+    const holidayDisplayMapping = {
+      "s-dnem-rozhdeniya": "c Денем рождения",
+      "s-yubileem": "с Юбилеем",
+      "1-aprelya": "1 апреля",
+      "9-maya-den-pobedy-v-vov": "9 мая, день победы в ВОВ",
+      "s-novym-godom": "Новый год",
+      "s-rozhdestvom": "Рождество",
+      "s-8-marta": "8 марта",
+      // Add other mappings as needed
+    }
+
+    const professionDisplayMapping = {
+      "ne-vazhno": "Не важно",
+      Administrator: "Администратор",
+      Akter: "Актер",
+      Aitishnik: "Айтишник",
+      // Add other mappings as needed
+    }
+
+    const styleDisplayMapping = {
+      smeshnoje: "Смешное и остроумное",
+      romantichnoe: "Романтичное",
+      "v-stihah": "В стихах",
+      formalnoje: "Формальное и красивое",
+      torzhestvennoje: "Длинное торжественное",
+    }
     const requestBody = {
-      who: recipients,
-      celebration: holidays,
-      occupation: professions,
-      style: style,
+      who: recipientDisplayMapping[selectedValues.recipients],
+      celebration: holidayDisplayMapping[selectedValues.holidays],
+      occupation: professionDisplayMapping[selectedValues.professions],
+      style: styleDisplayMapping[selectedValues.style],
       language: "ru",
+      slug: currentSlug,
     }
 
     setIsTyping(true)
@@ -131,8 +217,10 @@ const BlogPostTemplate = ({
           Object.keys(mapping).includes(part)
         )
         if (slugPart) {
-          select.value = mapping[slugPart]
+          select.value = slugPart
         }
+        // Add change event listener
+        select.addEventListener("change", buildSlugAndRedirect)
       }
     }
 
@@ -140,6 +228,16 @@ const BlogPostTemplate = ({
     setSelectedOption("holidays", holidayMapping)
     setSelectedOption("professions", professionMapping)
     setSelectedOption("style", styleMapping)
+
+    // Cleanup function to remove event listeners
+    return () => {
+      ;["recipients", "holidays", "professions", "style"].forEach(id => {
+        const select = document.getElementById(id)
+        if (select) {
+          select.removeEventListener("change", buildSlugAndRedirect)
+        }
+      })
+    }
   }, [slug])
 
   return (
@@ -168,19 +266,21 @@ const BlogPostTemplate = ({
                     className="select_custom blue_arrow rounded-3"
                     id="recipients"
                     style={{ width: "fit-content" }}
+                    value={selectedValues.recipients}
+                    onChange={handleDropdownChange}
                   >
-                    <option value="парня">парня</option>
-                    <option value="девушку">девушку</option>
-                    <option value="коллегу (девушка)">коллегу (девушка)</option>
-                    <option value="коллегу (мужчина)">коллегу (мужчина)</option>
-                    <option value="маму">маму</option>
-                    <option value="папу">папу</option>
-                    <option value="брата">брата</option>
-                    <option value="сестру">сестру</option>
-                    <option value="друга">друга</option>
-                    <option value="подругу">подругу</option>
-                    <option value="пару (молодожены)">пару (молодожены)</option>
-                    <option value="пару (супруги)">пару (супруги)</option>
+                    <option value="parnja">парня</option>
+                    <option value="devushku">девушку</option>
+                    <option value="mamu">маму</option>
+                    <option value="papu">папу</option>
+                    <option value="brata">брата</option>
+                    <option value="sestru">сестру</option>
+                    <option value="druga">друга</option>
+                    <option value="podrugu">подругу</option>
+                    <option value="babushku">бабушку</option>
+                    <option value="dedushku">дедушку</option>
+                    <option value="kollegu">коллегу</option>
+                    <option value="paru">пару</option>
                   </select>
                 </div>
                 <div className="col-md-auto mb-2 mb-sm-0 pe-0">
@@ -200,31 +300,34 @@ const BlogPostTemplate = ({
                     className="select_custom red_arrow rounded-3"
                     id="holidays"
                     style={{ width: "fit-content" }}
+                    value={selectedValues.holidays}
+                    onChange={handleDropdownChange}
                   >
-                    <option value="День рождения">День рождения</option>
-                    <option value="Юбилей">Юбилей</option>
-                    <option value="1 апреля">1 апреля</option>
-                    <option value="9 мая, день победы в ВОВ">
+                    <option value="s-dnem-rozhdeniya"> c Денем рождения</option>
+                    <option value="s-yubileem">с Юбилеем</option>
+                    <option value="1-aprelya">1 апреля</option>
+                    <option value="9-maya-den-pobedy-v-vov">
                       9 мая, день победы в ВОВ
                     </option>
-                    <option value="Новый год">Новый год</option>
-                    <option value="Рождество">Рождество</option>
-                    <option value="8 марта">8 марта</option>
-                    <option value="14 февраля">14 февраля</option>
-                    <option value="23 февраля">23 февраля</option>
-                    <option value="День защитника Отечества">
+                    <option value="s-novym-godom">Новый год</option>
+                    <option value="s-rozhdestvom">Рождество</option>
+                    <option value="s-8-marta">8 марта</option>
+                    <option value="s-14-fevralya">14 февраля</option>
+                    <option value="s-23-fevralya">23 февраля</option>
+                    <option value="s-dnem-zashitnika-otechestva">
                       День защитника Отечества
                     </option>
-                    <option value="День России">День России</option>
-                    <option value="День влюбленных">День влюбленных</option>
-                    <option value="День матери">День матери</option>
-                    <option value="Профессиональный праздник">
-                      Профессиональный праздник
+                    <option value="s-dnem-rossii">День России</option>
+                    <option value="s-dnem-vlyublennih">День влюбленных</option>
+                    <option value="s-dnem-materi">День матери</option>
+                    <option value="s-godovshinoj-svavadby">
+                      Годовщина свадьбы
                     </option>
-                    <option value="Годовщина свадьбы">Годовщина свадьбы</option>
-                    <option value="Свадьба">Свадьба</option>
-                    <option value="Выпускной в школе">Выпускной в школе</option>
-                    <option value="Выпускной в университете">
+                    <option value="so-svadboj">Свадьба</option>
+                    <option value="s-vypusknym-v-shkole">
+                      Выпускной в школе
+                    </option>
+                    <option value="s-vypussknym-v-universitete">
                       Выпускной в университете
                     </option>
                   </select>
@@ -247,11 +350,13 @@ const BlogPostTemplate = ({
                     id="professions"
                     data-none-results-text="Не найдено"
                     style={{ width: "fit-content" }}
+                    value={selectedValues.professions}
+                    onChange={handleDropdownChange}
                   >
-                    <option value="Не важно">Не важно</option>
-                    <option value="Администратор">Администратор</option>
-                    <option value="Актер">Актер</option>
-                    <option value="Айтишник">Айтишник</option>
+                    <option value="ne-vazhno">Не важно</option>
+                    <option value="administrator">Администратор</option>
+                    <option value="akter">Актер</option>
+                    <option value="aitishnik">Айтишник</option>
                     {/* Add more options here */}
                   </select>
                 </div>
@@ -272,16 +377,14 @@ const BlogPostTemplate = ({
                     className="select_custom_grn green_arrow rounded-3"
                     id="style"
                     style={{ width: "fit-content" }}
+                    value={selectedValues.style}
+                    onChange={handleDropdownChange}
                   >
-                    <option value="Смешное и остроумное">
-                      Смешное и остроумное
-                    </option>
-                    <option value="Романтичное">Романтичное</option>
-                    <option value="В стихах">В стихах</option>
-                    <option value="Бизнес, деловой стиль">
-                      Бизнес, деловой стиль
-                    </option>
-                    <option value="Длинное торжественное">
+                    <option value="smeshnoje">Смешное и остроумное</option>
+                    <option value="romantichnoe">Романтичное</option>
+                    <option value="v-stihah">В стихах</option>
+                    <option value="formalnoje">Формальное и красивое</option>
+                    <option value="torzhestvennoje">
                       Длинное торжественное
                     </option>
                   </select>
@@ -306,11 +409,6 @@ const BlogPostTemplate = ({
             >
               Скопировать
             </button>
-          </div>
-          <div className="slug-elements">
-            {slugElements.map((element, index) => (
-              <div key={index}>{element}</div>
-            ))}
           </div>
         </section>
 
@@ -411,6 +509,12 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")
         description
         wishes
+        selectedValues {
+          recipients
+          holidays
+          professions
+          style
+        }
       }
     }
     previous: markdownRemark(id: { eq: $previousPostId }) {

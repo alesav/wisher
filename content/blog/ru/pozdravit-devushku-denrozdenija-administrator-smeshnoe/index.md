@@ -6,6 +6,11 @@ wishes:
   - "Happy birthday, I wish you a fantastic year ahead!"
   - "May all your dreams come true"
   - "Wishing you happiness and success in all your endeavors"
+selectedValues:
+  recipients: "devushku"
+  holidays: "s-dnem-rozhdeniya"
+  professions: "ne-vazhno"
+  style: "smeshnoje"
 ---
 
 Wow! I love blogging so much already.
