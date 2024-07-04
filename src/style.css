@@ -405,3 +405,65 @@ a:focus {
   animation: blink .5s step-end infinite alternate;
   white-space: pre-wrap;
 }
+
+.wishes-section {
+  margin-top: 2rem;
+}
+
+.wishes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.wish-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  position: relative;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.wish-card p {
+  margin-bottom: 2rem;
+}
+
+.wish-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating button, .copy-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.rating button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.copy-btn {
+  background-color: #28a745;
+}
+
+.rating button:hover:not(:disabled), .copy-btn:hover {
+  opacity: 0.8;
+}

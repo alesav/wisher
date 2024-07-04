@@ -1,11 +1,15 @@
 ---
 title: Поздравить девушку c Днем рождения. Смешное
-date: "2024-07-03T13:49:19.921Z"
+date: "2024-07-03T14:14:08.613Z"
 wishes:
-  - "I wish you all the best"
-  - "Happy birthday, I wish you a fantastic year ahead!"
-  - "May all your dreams come true"
-  - "Wishing you happiness and success in all your endeavors"
+- id: 1
+  text: "С Днём Рождения, дорогая! Желаю тебе всегда оставаться такой же прекрасной, как сегодня. Пусть в твоей жизни будет больше радостных моментов, чем грустных. Пусть рядом всегда будут люди, которые тебя любят и ценят. И не забывай, что у тебя сегодня есть железный повод выпить лишний бокал вина. С праздником!"
+  rating: "0"
+  updated: "null"
+- "I wish you all the best"
+- "Happy birthday, I wish you a fantastic year ahead!"
+- "May all your dreams come true"
+- "Wishing you happiness and success in all your endeavors"
 selectedValues:
   recipients: "devushku"
   holidays: "s-dnem-rozhdeniya"

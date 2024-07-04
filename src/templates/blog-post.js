@@ -22,6 +22,53 @@ const BlogPostTemplate = ({
     style: post.frontmatter.selectedValues?.style || "",
   })
 
+  const [wishes, setWishes] = useState([])
+
+  useEffect(() => {
+    if (post.frontmatter.wishes) {
+      const sortedWishes = [...post.frontmatter.wishes].sort(
+        (a, b) => b.rating - a.rating
+      )
+      setWishes(sortedWishes)
+    }
+  }, [post.frontmatter.wishes])
+
+  const handleVote = async (id, voteType) => {
+    try {
+      const response = await fetch(
+        "https://sonicjs.smspm.workers.dev/o/sendinwisher",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id,
+            voteType,
+            IP: "user_ip_here", // You'll need to implement a way to get the user's IP
+          }),
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      // Update local state to disable buttons
+      setWishes(prevWishes =>
+        prevWishes.map(wish =>
+          wish.id === id ? { ...wish, voted: true } : wish
+        )
+      )
+    } catch (error) {
+      console.error("Error voting:", error)
+    }
+  }
+
+  const copyToClipboard = text => {
+    navigator.clipboard.writeText(text)
+  }
+
   const handleDropdownChange = event => {
     const { id, value } = event.target
     setSelectedValues(prev => ({ ...prev, [id]: value }))
@@ -30,7 +77,11 @@ const BlogPostTemplate = ({
 
   const getRandomWish = useCallback(() => {
     const wishes = post.frontmatter.wishes || []
-    return wishes[Math.floor(Math.random() * wishes.length)] || "Best wishes!"
+    if (wishes.length === 0) {
+      return "This page doesn't have wishes yet. Click Generate button to generate one"
+    }
+    const randomWish = wishes[Math.floor(Math.random() * wishes.length)]
+    return randomWish.text || "Best wishes!"
   }, [post.frontmatter.wishes])
 
   const typeText = useCallback((text, delay = 100) => {
@@ -430,13 +481,38 @@ const BlogPostTemplate = ({
           itemProp="articleBody"
         />
         {post.frontmatter.wishes && post.frontmatter.wishes.length > 0 && (
-          <section>
+          <section className="wishes-section">
             <h2>Wishes</h2>
-            <ul>
-              {post.frontmatter.wishes.map((wish, index) => (
-                <li key={index}>{wish}</li>
+            <div className="wishes-container">
+              {wishes.map(wish => (
+                <div key={wish.id} className="wish-card">
+                  <p>{wish.text}</p>
+                  <div className="wish-footer">
+                    <div className="rating">
+                      Rating: {wish.rating}
+                      <button
+                        onClick={() => handleVote(wish.id, "upvote")}
+                        disabled={wish.voted}
+                      >
+                        Upvote
+                      </button>
+                      <button
+                        onClick={() => handleVote(wish.id, "downvote")}
+                        disabled={wish.voted}
+                      >
+                        Downvote
+                      </button>
+                    </div>
+                    <button
+                      className="copy-btn"
+                      onClick={() => copyToClipboard(wish.text)}
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </section>
         )}
         <hr />
@@ -508,7 +584,11 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
-        wishes
+        wishes {
+          id
+          text
+          rating
+        }
         selectedValues {
           recipients
           holidays

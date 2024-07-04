@@ -1,6 +1,6 @@
 ---
 title: Поздравить папу c Днем рождения. Смешное
-date: "2024-07-03T13:49:19.924Z"
+date: "2024-07-03T14:14:08.615Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

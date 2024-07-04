@@ -135,6 +135,21 @@ exports.createSchemaCustomization = ({ actions }) => {
       title: String
       description: String
       date: Date @dateformat
+      wishes: [Wish]
+      selectedValues: SelectedValues
+    }
+
+    type Wish {
+      id: String
+      text: String
+      rating: Int
+    }
+
+    type SelectedValues {
+      recipients: String
+      holidays: String
+      professions: String
+      style: String
     }
 
     type Fields {
