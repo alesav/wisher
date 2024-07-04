@@ -488,13 +488,13 @@ const BlogPostTemplate = ({
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
           {post.fields && post.fields.gitCommitTime ? (
             <p>
-              Last updated:{" "}
+              Последнее обновление:{" "}
               {new Date(post.fields.gitCommitTime).toLocaleString("en-US", {
                 timeZone: "UTC",
               })}
             </p>
           ) : (
-            <p>Last updated: Unknown</p>
+            <p>Последнее обновление: неизвестно</p>
           )}
         </header>
         <section
@@ -503,32 +503,32 @@ const BlogPostTemplate = ({
         />
         {post.frontmatter.wishes && post.frontmatter.wishes.length > 0 && (
           <section className="wishes-section">
-            <h2>Wishes</h2>
+            <h2>Поздравления</h2>
             <div className="wishes-container">
               {wishes.map(wish => (
                 <div key={wish.id} className="wish-card">
                   <p>{wish.text}</p>
                   <div className="wish-footer">
                     <div className="rating">
-                      Rating: {wish.rating}
+                      Рейтинг: {wish.rating}
                       <button
                         onClick={() => handleVote(wish.id, "upvote")}
                         disabled={wish.voted}
                       >
-                        Upvote
+                        Нравится
                       </button>
                       <button
                         onClick={() => handleVote(wish.id, "downvote")}
                         disabled={wish.voted}
                       >
-                        Downvote
+                        Не нравится
                       </button>
                     </div>
                     <button
                       className="copy-btn"
                       onClick={() => copyToClipboard(wish.text)}
                     >
-                      Copy
+                      Скопировать
                     </button>
                   </div>
                 </div>

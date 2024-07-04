@@ -19,19 +19,19 @@ const recipientDisplayMapping = {
 const holidayDisplayMapping = {
   "s-dnem-rozhdeniya": "c Днем рождения",
   "s-yubileem": "с Юбилеем",
-  "1-aprelya": "1 апреля",
-  "9-maya-den-pobedy-v-vov": "9 мая, день победы в ВОВ",
-  "s-novym-godom": "Новый год",
-  "s-rozhdestvom": "Рождество",
-  "s-8-marta": "8 марта",
-  "s-dnem-zashitnika-otechestva": "День защитника Отечества",
-  "s-dnem-rossii": "День России",
-  "s-dnem-vlyublennih": "День влюбленных",
-  "s-dnem-materi": "День матери",
-  "s-godovshinoj-svavadby": "Годовщина свадьбы",
-  "so-svadboj": "Свадьба",
-  "s-vypusknym-v-shkole": "Выпускной в школе",
-  "s-vypussknym-v-universitete": "Выпускной в университете",
+  "1-aprelya": "с 1 апреля",
+  "9-maya-den-pobedy-v-vov": "с 9 мая, день победы в ВОВ",
+  "s-novym-godom": "с Новым годом",
+  "s-rozhdestvom": "Рождеством",
+  "s-8-marta": "с 8 марта",
+  "s-dnem-zashitnika-otechestva": "с Днем защитника Отечества",
+  "s-dnem-rossii": "с Днем России",
+  "s-dnem-vlyublennih": "с Днем влюбленных",
+  "s-dnem-materi": "с Днем матери",
+  "s-godovshinoj-svavadby": "с Годовщиной свадьбы",
+  "so-svadboj": "со Свадьбой",
+  "s-vypusknym-v-shkole": "с Выпускным в школе",
+  "s-vypussknym-v-universitete": "с Выпускным в университете",
 }
 
 const professionDisplayMapping = {
@@ -91,10 +91,7 @@ const createFolderAndFile = (slug, title, selectedValues) => {
 title: ${title}
 date: "${new Date().toISOString()}"
 wishes:
-  - "I wish you all the best"
-  - "Happy birthday, I wish you a fantastic year ahead!"
-  - "May all your dreams come true"
-  - "Wishing you happiness and success in all your endeavors"
+  - "Это первое поздравление"
 selectedValues:
   recipients: "${selectedValues.recipients}"
   holidays: "${selectedValues.holidays}"
@@ -102,14 +99,9 @@ selectedValues:
   style: "${selectedValues.style}"
 ---
 
-Wow! I love blogging so much already.
-
-Did you know that "despite its name, salted duck eggs can also be made from
-chicken eggs, though the taste and texture will be somewhat different, and the
-egg yolk will be less rich."?
-([Wikipedia Link](https://en.wikipedia.org/wiki/Salted_duck_egg))
-
-Yeah, I didn't either.
+Добро пожаловать на наш сайт! 
+Здесь вы найдете отличную подборку поздравлений на любой случай. 
+Хотите поздравить друга с днём рождения, коллегу с профессиональным праздником или близких с Новым годом? У нас есть всё, чтобы сделать ваш поздравительный текст незабываемым. Выбирайте нужную категорию и находите лучшие слова для ваших близких и друзей!
 `
 
   fs.mkdir(folderPath, { recursive: true }, err => {
