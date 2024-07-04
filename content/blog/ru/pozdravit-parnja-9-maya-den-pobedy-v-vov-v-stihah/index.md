@@ -1,6 +1,6 @@
 ---
 title: Поздравить парня 9 мая, день победы в ВОВ. В стихах
-date: "2024-07-03T14:14:08.609Z"
+date: "2024-07-04T20:21:43.128Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

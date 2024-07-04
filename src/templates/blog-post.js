@@ -363,8 +363,6 @@ const BlogPostTemplate = ({
                     <option value="s-novym-godom">Новый год</option>
                     <option value="s-rozhdestvom">Рождество</option>
                     <option value="s-8-marta">8 марта</option>
-                    <option value="s-14-fevralya">14 февраля</option>
-                    <option value="s-23-fevralya">23 февраля</option>
                     <option value="s-dnem-zashitnika-otechestva">
                       День защитника Отечества
                     </option>
@@ -408,6 +406,29 @@ const BlogPostTemplate = ({
                     <option value="administrator">Администратор</option>
                     <option value="akter">Актер</option>
                     <option value="aitishnik">Айтишник</option>
+                    <option value="barmen">Бармен</option>
+                    <option value="biznesmen">Бизнесмен</option>
+                    <option value="bloger">Блогер</option>
+                    <option value="buhgalter">Бухгалтер</option>
+                    <option value="voditel">Водитель</option>
+                    <option value="voennyy">Военный</option>
+                    <option value="vrach">Врач</option>
+                    <option value="direktor">Директор</option>
+                    <option value="dizayner">Дизайнер</option>
+                    <option value="zhurnalist">Журналист</option>
+                    <option value="inzhener">Инженер</option>
+                    <option value="kriptan">Криптан</option>
+                    <option value="menedzher">Менеджер</option>
+                    <option value="ohrannik">Охранник</option>
+                    <option value="perevodchik">Переводчик</option>
+                    <option value="predprinimatel">Предприниматель</option>
+                    <option value="prodavets">Продавец</option>
+                    <option value="programmist">Программист</option>
+                    <option value="razrabotchik">Разработчик</option>
+                    <option value="sekretar">Секретарь</option>
+                    <option value="taksist">Таксист</option>
+                    <option value="uchitel">Учитель</option>
+                    <option value="fotograf">Фотограф</option>
                     {/* Add more options here */}
                   </select>
                 </div>

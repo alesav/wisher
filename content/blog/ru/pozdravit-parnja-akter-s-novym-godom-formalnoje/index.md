@@ -1,6 +1,6 @@
 ---
-title: Поздравить парня актер с Новым годом. Формальное и красивое
-date: "2024-07-03T14:14:08.613Z"
+title: Поздравить парня Актера Новый год. Формальное и красивое
+date: "2024-07-04T20:21:47.118Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"

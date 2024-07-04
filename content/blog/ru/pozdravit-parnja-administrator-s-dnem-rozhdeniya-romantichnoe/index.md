@@ -1,6 +1,6 @@
 ---
-title: Поздравить парня администратор c Днем рождения. Романтичное
-date: "2024-07-03T14:14:08.609Z"
+title: Поздравить парня Администратора c Днем рождения. Романтичное
+date: "2024-07-04T20:21:43.125Z"
 wishes:
   - "I wish you all the best"
   - "Happy birthday, I wish you a fantastic year ahead!"
